@@ -6,7 +6,7 @@ const Todos = () => {
     const [newTask, setNewTask] = useState({ title: "", description: "" });
 
     useEffect(() => {
-        fetch("http://127.0.0.1:8000/todos/")
+        fetch("https://django-todos-production.up.railway.app/todos/")
             .then((response) => response.json())
             .then((data) => {
                 setTodos(data);
@@ -20,7 +20,7 @@ const Todos = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        fetch("http://127.0.0.1:8000/todos/", {
+        fetch("https://django-todos-production.up.railway.app/todos/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

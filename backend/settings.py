@@ -141,6 +141,6 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:3000",  # Dirección del servidor Next.js
-    "https://django-todos-production.up.railway.app",
+    'https://django-todos-production.up.railway.app',  # Backend en Railway
+    'https://django-todos-ewhs0wtgw-ignacios-projects-ed9d6320.vercel.app',  # Frontend en Vercel
 ]

@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -80,11 +80,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'railway',  # PGDATABASE
-        'USER': 'postgres',  # PGUSER
-        'PASSWORD': 'ZKXqiewBpOvdXDiDepeZvJHrJmXhHDvN',  # PGPASSWORD
-        'HOST': 'autorack.proxy.rlwy.net',  # Host público de DATABASE_PUBLIC_URL
-        'PORT': '12459',  # Puerto público
+        'NAME': os.getenv('PGDATABASE'),  # Nombre de la base de datos
+        'USER': os.getenv('PGUSER'),      # Usuario
+        'PASSWORD': os.getenv('PGPASSWORD'),  # Contraseña
+        'HOST': os.getenv('PGHOST'),      # Host
+        'PORT': os.getenv('PGPORT'),      # Puerto
     }
 }
 

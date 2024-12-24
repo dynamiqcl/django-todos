@@ -16,8 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from todos.views import home  # Importa la función `home`
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('todos/', include('todos.urls')),  # Asegúrate de que esto apunta a 'todos.urls'
+    path('todos/', include('todos.urls')),  # Rutas para la app `todos`
+    path('', home, name='home'),  # Ruta para la raíz del sitio
 ]

@@ -1,7 +1,11 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Todo
 import json
+
+# Vista para la raíz del sitio
+def home(request):
+    return HttpResponse("Bienvenido a la API de Todo List")
 
 @csrf_exempt
 def todo_list(request):

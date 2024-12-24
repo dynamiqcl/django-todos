@@ -137,6 +137,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Configuración de CORS para permitir solicitudes desde el frontend
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # Dirección del servidor Next.js
+    "https://django-todos-production.up.railway.app",
 ]
 
 CSRF_TRUSTED_ORIGINS = [

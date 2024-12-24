@@ -25,7 +25,11 @@ SECRET_KEY = 'django-insecure-sq#$h#6s+8%#ub0_&8r&57#z%c@xna5&tr=%03#_%cdazdd)a5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'django-todos-production.up.railway.app',
+    '127.0.0.1',  # Para desarrollo local
+    'localhost',  # Opcional para desarrollo local
+]
 
 
 # Application definition
@@ -80,11 +84,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('PGDATABASE'),  # Nombre de la base de datos
-        'USER': os.getenv('PGUSER'),      # Usuario
-        'PASSWORD': os.getenv('PGPASSWORD'),  # Contraseña
-        'HOST': os.getenv('PGHOST'),      # Host
-        'PORT': os.getenv('PGPORT'),      # Puerto
+        'NAME': os.getenv('PGDATABASE'),
+        'USER': os.getenv('PGUSER'),
+        'PASSWORD': os.getenv('PGPASSWORD'),
+        'HOST': os.getenv('PGHOST'),
+        'PORT': os.getenv('PGPORT'),
     }
 }
 

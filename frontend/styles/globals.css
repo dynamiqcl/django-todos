@@ -1,0 +1,21 @@
+/* Importa las configuraciones base de Tailwind CSS */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Agrega tus estilos personalizados globales aquí */
+body {
+  @apply bg-gray-50 text-gray-800 font-sans;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @apply font-bold;
+}
+
+a {
+  @apply text-blue-500 hover:text-blue-700 underline;
+}
+
+button {
+  @apply px-4 py-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600;
+}

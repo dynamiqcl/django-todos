@@ -5,8 +5,11 @@ const Todos = () => {
     const [loading, setLoading] = useState(true);
     const [newTask, setNewTask] = useState({ title: "", description: "" });
 
+    // Obtén la URL de la API desde la variable de entorno
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
     useEffect(() => {
-        fetch("https://django-todos-production.up.railway.app/todos/")
+        fetch(`${API_URL}/todos/`)
             .then((response) => response.json())
             .then((data) => {
                 setTodos(data);
@@ -16,11 +19,11 @@ const Todos = () => {
                 console.error("Error fetching data:", error);
                 setLoading(false);
             });
-    }, []);
+    }, [API_URL]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        fetch("https://django-todos-production.up.railway.app/todos/", {
+        fetch(`${API_URL}/todos/`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

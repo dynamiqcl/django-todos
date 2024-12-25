@@ -73,11 +73,11 @@ const Todos = () => {
     }
 
     return (
-        <div className="max-w-4xl mx-auto p-5">
-            <h1 className="text-3xl font-bold text-center mb-5">Todo List</h1>
+        <div className="max-w-full sm:max-w-4xl mx-auto p-5">
+            <h1 className="text-2xl sm:text-3xl font-bold text-center mb-5">Todo List</h1>
 
             {/* Formulario */}
-            <form onSubmit={handleSubmit} className="flex gap-2 mb-5">
+            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2 mb-5">
                 <input
                     type="text"
                     placeholder="Task Title"
@@ -100,7 +100,7 @@ const Todos = () => {
                 />
                 <button
                     type="submit"
-                    className="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600"
+                    className="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600 w-full sm:w-auto"
                 >
                     Add Task
                 </button>
@@ -110,7 +110,7 @@ const Todos = () => {
             {todos.length === 0 ? (
                 <p className="text-center text-lg text-gray-500">No tasks found.</p>
             ) : (
-                <ul className="space-y-3">
+                <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {todos.map((todo) => (
                         <li
                             key={todo.id}
@@ -132,18 +132,18 @@ const Todos = () => {
                                     {todo.completed ? "Completed" : "Pending"}
                                 </span>
                             </p>
-                            <div className="flex gap-2 mt-2">
+                            <div className="flex gap-2 flex-wrap mt-2">
                                 {!todo.completed && (
                                     <button
                                         onClick={() => handleComplete(todo.id)}
-                                        className="bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600"
+                                        className="bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600 w-full sm:w-auto"
                                     >
                                         Mark as Completed
                                     </button>
                                 )}
                                 <button
                                     onClick={() => handleDelete(todo.id)}
-                                    className="bg-red-500 text-white px-4 py-2 rounded shadow hover:bg-red-600"
+                                    className="bg-red-500 text-white px-4 py-2 rounded shadow hover:bg-red-600 w-full sm:w-auto"
                                 >
                                     Delete
                                 </button>

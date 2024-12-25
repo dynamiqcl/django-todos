@@ -5,7 +5,6 @@ const Todos = () => {
     const [loading, setLoading] = useState(true);
     const [newTask, setNewTask] = useState({ title: "", description: "" });
 
-    // Obtén la URL de la API desde la variable de entorno
     const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
     useEffect(() => {
@@ -36,6 +35,37 @@ const Todos = () => {
                 setNewTask({ title: "", description: "" });
             })
             .catch((error) => console.error("Error creating task:", error));
+    };
+
+    const handleComplete = (id) => {
+        fetch(`${API_URL}/todos/${id}/`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ completed: true }),
+        })
+            .then((response) => response.json())
+            .then((updatedTodo) => {
+                setTodos((prevTodos) =>
+                    prevTodos.map((todo) =>
+                        todo.id === id ? updatedTodo : todo
+                    )
+                );
+            })
+            .catch((error) => console.error("Error updating task:", error));
+    };
+
+    const handleDelete = (id) => {
+        fetch(`${API_URL}/todos/${id}/`, {
+            method: "DELETE",
+        })
+            .then(() => {
+                setTodos((prevTodos) =>
+                    prevTodos.filter((todo) => todo.id !== id)
+                );
+            })
+            .catch((error) => console.error("Error deleting task:", error));
     };
 
     if (loading) {
@@ -102,6 +132,22 @@ const Todos = () => {
                                     {todo.completed ? "Completed" : "Pending"}
                                 </span>
                             </p>
+                            <div className="flex gap-2 mt-2">
+                                {!todo.completed && (
+                                    <button
+                                        onClick={() => handleComplete(todo.id)}
+                                        className="bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600"
+                                    >
+                                        Mark as Completed
+                                    </button>
+                                )}
+                                <button
+                                    onClick={() => handleDelete(todo.id)}
+                                    className="bg-red-500 text-white px-4 py-2 rounded shadow hover:bg-red-600"
+                                >
+                                    Delete
+                                </button>
+                            </div>
                         </li>
                     ))}
                 </ul>

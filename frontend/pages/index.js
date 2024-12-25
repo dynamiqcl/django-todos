@@ -14,8 +14,8 @@ const Todos = () => {
                 setTodos(data);
                 setLoading(false);
             })
-            .catch(() => {
-                console.error("Error fetching data");
+            .catch((err) => {
+                console.error("Error fetching data:", err);
                 setLoading(false);
             });
     }, [API_URL]);
@@ -34,7 +34,7 @@ const Todos = () => {
                 setTodos((prevTodos) => [...prevTodos, data]);
                 setNewTask({ title: "", description: "", priority: "Medium", category: "", due_date: "" });
             })
-            .catch(() => console.error("Error creating task"));
+            .catch((err) => console.error("Error creating task:", err));
     };
 
     const handleComplete = (id) => {
@@ -53,7 +53,7 @@ const Todos = () => {
                     )
                 );
             })
-            .catch(() => console.error("Error updating task"));
+            .catch((err) => console.error("Error updating task:", err));
     };
 
     const handleDelete = (id) => {
@@ -65,7 +65,7 @@ const Todos = () => {
                     prevTodos.filter((todo) => todo.id !== id)
                 );
             })
-            .catch(() => console.error("Error deleting task"));
+            .catch((err) => console.error("Error deleting task:", err));
     };
 
     if (loading) {

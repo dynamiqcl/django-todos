@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 const Todos = () => {
     const [todos, setTodos] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [newTask, setNewTask] = useState({ title: "", description: "" });
+    const [newTask, setNewTask] = useState({ title: "", description: "", priority: "Medium", category: "", due_date: "" });
 
     const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -32,7 +32,7 @@ const Todos = () => {
             .then((response) => response.json())
             .then((data) => {
                 setTodos((prevTodos) => [...prevTodos, data]);
-                setNewTask({ title: "", description: "" });
+                setNewTask({ title: "", description: "", priority: "Medium", category: "", due_date: "" });
             })
             .catch(() => console.error("Error creating task"));
     };
@@ -77,7 +77,7 @@ const Todos = () => {
             <h1 className="text-3xl font-bold text-center mb-5">Todo List</h1>
 
             {/* Formulario */}
-            <form onSubmit={handleSubmit} className="flex gap-2 mb-5 flex-col sm:flex-row">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4 mb-5">
                 <input
                     type="text"
                     placeholder="Task Title"
@@ -86,17 +86,41 @@ const Todos = () => {
                         setNewTask({ ...newTask, title: e.target.value })
                     }
                     required
-                    className="flex-1 border p-2 rounded shadow"
+                    className="border p-2 rounded shadow"
                 />
-                <input
-                    type="text"
+                <textarea
                     placeholder="Task Description"
                     value={newTask.description}
                     onChange={(e) =>
                         setNewTask({ ...newTask, description: e.target.value })
                     }
                     required
-                    className="flex-1 border p-2 rounded shadow"
+                    className="border p-2 rounded shadow"
+                />
+                <select
+                    value={newTask.priority}
+                    onChange={(e) => setNewTask({ ...newTask, priority: e.target.value })}
+                    className="border p-2 rounded shadow"
+                >
+                    <option value="Low">Low Priority</option>
+                    <option value="Medium">Medium Priority</option>
+                    <option value="High">High Priority</option>
+                </select>
+                <input
+                    type="text"
+                    placeholder="Task Category"
+                    value={newTask.category}
+                    onChange={(e) =>
+                        setNewTask({ ...newTask, category: e.target.value })
+                    }
+                    required
+                    className="border p-2 rounded shadow"
+                />
+                <input
+                    type="date"
+                    value={newTask.due_date}
+                    onChange={(e) => setNewTask({ ...newTask, due_date: e.target.value })}
+                    className="border p-2 rounded shadow"
                 />
                 <button
                     type="submit"
@@ -122,6 +146,9 @@ const Todos = () => {
                         >
                             <strong className="text-lg">{todo.title}</strong>
                             <p>{todo.description}</p>
+                            <p>Category: {todo.category}</p>
+                            <p>Priority: {todo.priority}</p>
+                            <p>Due Date: {todo.due_date || "No deadline"}</p>
                             <p>
                                 Status:{" "}
                                 <span

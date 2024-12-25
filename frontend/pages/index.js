@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+import { FiCheckCircle, FiTrash2 } from "react-icons/fi";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Todos = () => {
     const [todos, setTodos] = useState([]);
@@ -22,6 +25,10 @@ const Todos = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (!newTask.title || !newTask.description) {
+            toast.error("Please fill in all fields!");
+            return;
+        }
         fetch(`${API_URL}/todos/`, {
             method: "POST",
             headers: {
@@ -33,8 +40,9 @@ const Todos = () => {
             .then((data) => {
                 setTodos((prevTodos) => [...prevTodos, data]);
                 setNewTask({ title: "", description: "" });
+                toast.success("Task added successfully!");
             })
-            .catch((error) => console.error("Error creating task:", error));
+            .catch((error) => toast.error("Error creating task!"));
     };
 
     const handleComplete = (id) => {
@@ -52,8 +60,9 @@ const Todos = () => {
                         todo.id === id ? updatedTodo : todo
                     )
                 );
+                toast.success("Task marked as completed!");
             })
-            .catch((error) => console.error("Error updating task:", error));
+            .catch((error) => toast.error("Error updating task!"));
     };
 
     const handleDelete = (id) => {
@@ -64,8 +73,9 @@ const Todos = () => {
                 setTodos((prevTodos) =>
                     prevTodos.filter((todo) => todo.id !== id)
                 );
+                toast.success("Task deleted successfully!");
             })
-            .catch((error) => console.error("Error deleting task:", error));
+            .catch((error) => toast.error("Error deleting task!"));
     };
 
     if (loading) {
@@ -73,11 +83,14 @@ const Todos = () => {
     }
 
     return (
-        <div className="max-w-full sm:max-w-4xl mx-auto p-5">
-            <h1 className="text-2xl sm:text-3xl font-bold text-center mb-5">Todo List</h1>
+        <div className="max-w-4xl mx-auto p-5">
+            <ToastContainer />
+            <h1 className="text-4xl font-bold text-center mb-8 text-gradient">
+                Todo List
+            </h1>
 
             {/* Formulario */}
-            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2 mb-5">
+            <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-4 mb-5">
                 <input
                     type="text"
                     placeholder="Task Title"
@@ -86,7 +99,7 @@ const Todos = () => {
                         setNewTask({ ...newTask, title: e.target.value })
                     }
                     required
-                    className="flex-1 border p-2 rounded shadow"
+                    className="flex-1 border p-3 rounded shadow-md focus:outline-none focus:ring focus:ring-blue-300"
                 />
                 <input
                     type="text"
@@ -96,11 +109,11 @@ const Todos = () => {
                         setNewTask({ ...newTask, description: e.target.value })
                     }
                     required
-                    className="flex-1 border p-2 rounded shadow"
+                    className="flex-1 border p-3 rounded shadow-md focus:outline-none focus:ring focus:ring-blue-300"
                 />
                 <button
                     type="submit"
-                    className="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600 w-full sm:w-auto"
+                    className="bg-blue-500 text-white px-6 py-3 rounded shadow hover:bg-blue-600 transition"
                 >
                     Add Task
                 </button>
@@ -110,42 +123,46 @@ const Todos = () => {
             {todos.length === 0 ? (
                 <p className="text-center text-lg text-gray-500">No tasks found.</p>
             ) : (
-                <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <ul className="space-y-4">
                     {todos.map((todo) => (
                         <li
                             key={todo.id}
-                            className={`p-4 rounded shadow ${
+                            className={`p-5 rounded-lg shadow-md flex flex-col md:flex-row justify-between items-start md:items-center ${
                                 todo.completed
                                     ? "bg-green-100 border-green-500"
                                     : "bg-red-100 border-red-500"
                             } border`}
                         >
-                            <strong className="text-lg">{todo.title}</strong>
-                            <p>{todo.description}</p>
-                            <p>
-                                Status:{" "}
-                                <span
-                                    className={`font-bold ${
-                                        todo.completed ? "text-green-600" : "text-red-600"
-                                    }`}
-                                >
-                                    {todo.completed ? "Completed" : "Pending"}
-                                </span>
-                            </p>
-                            <div className="flex gap-2 flex-wrap mt-2">
+                            <div>
+                                <h2 className="text-2xl font-semibold">{todo.title}</h2>
+                                <p className="text-gray-700">{todo.description}</p>
+                                <p className="mt-2">
+                                    Status:{" "}
+                                    <span
+                                        className={`font-bold ${
+                                            todo.completed
+                                                ? "text-green-600"
+                                                : "text-red-600"
+                                        }`}
+                                    >
+                                        {todo.completed ? "Completed" : "Pending"}
+                                    </span>
+                                </p>
+                            </div>
+                            <div className="flex gap-4 mt-4 md:mt-0">
                                 {!todo.completed && (
                                     <button
                                         onClick={() => handleComplete(todo.id)}
-                                        className="bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600 w-full sm:w-auto"
+                                        className="bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600 flex items-center gap-2"
                                     >
-                                        Mark as Completed
+                                        <FiCheckCircle /> Complete
                                     </button>
                                 )}
                                 <button
                                     onClick={() => handleDelete(todo.id)}
-                                    className="bg-red-500 text-white px-4 py-2 rounded shadow hover:bg-red-600 w-full sm:w-auto"
+                                    className="bg-red-500 text-white px-4 py-2 rounded shadow hover:bg-red-600 flex items-center gap-2"
                                 >
-                                    Delete
+                                    <FiTrash2 /> Delete
                                 </button>
                             </div>
                         </li>
